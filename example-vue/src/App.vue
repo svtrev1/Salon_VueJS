@@ -1,6 +1,11 @@
 <template>
   <header>
     <nav>
+      <ul>
+        <li><router-link to="/">Главная</router-link></li>
+        <li><router-link to="/clients">Клиенты</router-link></li>
+        <li><router-link to="/cosmetologists">Косметологи</router-link></li>
+      </ul>
       <div v-if="isAuthenticated && user">
         Welcome, {{ user.name }}
         <button @click="logout">logout</button>
@@ -21,6 +26,7 @@
       </div>
     </nav>
   </header>
+  <router-view />
 </template>
 
 <script>
