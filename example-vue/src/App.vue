@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <!-- <header>
     <nav>
       <ul>
         <li><router-link to="/">Главная</router-link></li>
@@ -26,18 +26,77 @@
       </div>
     </nav>
   </header>
-  <router-view />
+-->
+  <Menubar :model="items">
+    <template #start>
+      <span>
+        <img src="@/assets/logo.png" alt="LOGO" width="50"/>
+      </span>
+    </template>
+    <template #item="{ item, props, hasSubmenu, root}">
+      <a class="flex items-center ml-6 p-4">
+        <router-link v-if="item.route" :to="item.route">
+          <span :class="item.icon"></span>
+          <span class="ml-1">{{ item.label }}</span>
+        </router-link>
+      </a>
+    </template>
+    <template #end>
+      <div class="flex items-center gap-2">
+        <div v-if="isAuthenticated && user">
+          <span class="pi pi-fw pi-user mr-4"></span>
+          {{ user.name }}
+          <Button @click="logout" class="ml-4">Выйти</Button>
+        </div>
+        <div v-else>
+          <form @submit.prevent="login">
+            <InputText v-model="email" type="email" id="email" required placeholder="Логин" class="m-2 sm:w-auto" :class="{'p-invalid': authError}"/>
+            <InputText v-model="password" type="password" id="password" required placeholder="Пароль" class="m-2 sm:w-auto" :class="{'p-invalid': authError}"/>
+            <Button type="submit">Войти</Button>
+            <div class="ml-2"> <small v-if="authError" class="error">{{ authError }}</small> </div>
+          </form>
+        </div>
+      </div>
+    </template>
+  </Menubar>
+  <router-view /> 
 </template>
 
 <script>
 import { useAuthStore } from '@/stores/authStore';
+import Button from "primevue/button";
+import Menubar from "primevue/menubar";
+import InputText from "primevue/inputtext";
 
 export default {
+  components: {Button, Menubar, InputText},
   data() {
     return {
+      date: '',
       email: '',
       password: '',
       authStore: useAuthStore(),
+      items: [
+        {
+          label: 'Главная страница',
+          icon: 'pi pi-fw pi-home',
+          route: '/',
+          shortcut: 'Ctrl + H',
+          submenu: [
+            //items
+          ],
+        },
+        {
+          label: 'Косметологи',
+          icon: 'pi pi-fw pi-user',
+          route: '/cosmetologists',
+        },
+        {
+          label: 'Клиенты',
+          icon: 'pi pi-fw pi-users',
+          route: '/clients',
+        },
+      ],
     };
   },
   computed: {

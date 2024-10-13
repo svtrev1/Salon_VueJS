@@ -1,4 +1,4 @@
 <template>
-    <p>CLIENTS</p>
+        <p>CLIENTS</p>
 </template>
 <script></script>
