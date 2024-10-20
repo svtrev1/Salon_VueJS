@@ -96,6 +96,11 @@ export default {
           icon: 'pi pi-fw pi-users',
           route: '/clients',
         },
+        {
+          label: 'Сеансы',
+          icon: 'pi pi-fw pi-calendar-clock',
+          route: '/sessions',
+        },
       ],
     };
   },
